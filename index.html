@@ -1,0 +1,985 @@
+<!DOCTYPE html><html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FʀᴇᴇFɪʀᴇ Sʜᴏᴘ | Guild Glory Package</title>
+  <meta name="description" content="FʀᴇᴇFɪʀᴇ Sʜᴏᴘ এর প্রিমিয়াম Guild Glory Bot প্যাকেজ। WhatsApp এ এক ক্লিকে অর্ডার করুন।" />
+  <style>
+    :root {
+      --bg: #08111f;
+      --bg2: #0d1b2a;
+      --card: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.14);
+      --text: #f5f7ff;
+      --muted: #b7c5df;
+      --cyan: #00e5ff;
+      --purple: #8a2be2;
+      --pink: #ff007f;
+      --yellow: #ffd60a;
+      --green: #39ff14;
+      --shadow: 0 0 24px rgba(0,229,255,.18), 0 0 50px rgba(138,43,226,.12);
+      --radius: 24px;
+    }* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 20% 20%, rgba(0,229,255,.20), transparent 28%),
+    radial-gradient(circle at 80% 10%, rgba(255,0,127,.18), transparent 24%),
+    radial-gradient(circle at 70% 80%, rgba(57,255,20,.14), transparent 24%),
+    radial-gradient(circle at 50% 50%, rgba(255,214,10,.08), transparent 30%),
+    linear-gradient(135deg, #050c18 0%, #0d1b2a 50%, #12071f 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+canvas#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+}
+
+.bg-lines::before,
+.bg-lines::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+.bg-lines::before {
+  background-image:
+    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at center, black 55%, transparent 95%);
+}
+
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(45px);
+  opacity: .45;
+  z-index: -1;
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb1 {
+  width: 240px;
+  height: 240px;
+  left: -60px;
+  top: 60px;
+  background: rgba(0,229,255,.20);
+}
+
+.orb2 {
+  width: 220px;
+  height: 220px;
+  right: -40px;
+  top: 180px;
+  background: rgba(255,0,127,.20);
+  animation-delay: -2s;
+}
+
+.orb3 {
+  width: 260px;
+  height: 260px;
+  right: 10%;
+  bottom: 0;
+  background: rgba(138,43,226,.16);
+  animation-delay: -4s;
+}
+
+.orb4 {
+  width: 180px;
+  height: 180px;
+  left: 35%;
+  bottom: 12%;
+  background: rgba(255,214,10,.14);
+  animation-delay: -1s;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0) translateX(0) scale(1); }
+  50% { transform: translateY(-20px) translateX(10px) scale(1.05); }
+}
+
+@keyframes glowPulse {
+  0%,100% { box-shadow: 0 0 0 rgba(0,229,255,0), 0 0 18px rgba(0,229,255,.10); }
+  50% { box-shadow: 0 0 26px rgba(0,229,255,.28), 0 0 55px rgba(138,43,226,.22), 0 0 75px rgba(255,0,127,.12); }
+}
+
+@keyframes borderDance {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes pulseScale {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+@keyframes shine {
+  from { transform: translateX(-140%) skewX(-20deg); }
+  to { transform: translateX(220%) skewX(-20deg); }
+}
+
+.container {
+  width: min(1180px, calc(100% - 28px));
+  margin: 0 auto;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+  background: rgba(6, 15, 30, .65);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  z-index: 10;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  gap: 14px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+
+.brand-badge {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  color: #08111f;
+  font-weight: 900;
+  box-shadow: var(--shadow);
+}
+
+.brand span {
+  font-size: 1rem;
+  color: white;
+  text-shadow: 0 0 10px rgba(0,229,255,.6), 0 0 25px rgba(255,0,127,.4);
+}
+
+.brand small {
+  display: block;
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+  transition: .25s ease;
+}
+
+.nav-links a:hover { color: var(--cyan); }
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  padding: 14px 20px;
+  border-radius: 16px;
+  font-weight: 800;
+  font-size: .98rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .22s ease, opacity .22s ease;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn:hover { transform: translateY(-2px) scale(1.01); }
+.btn:active { transform: translateY(0) scale(.99); }
+
+.btn-primary {
+  color: #06101d;
+  background: linear-gradient(135deg, var(--cyan), #88f7ff 50%, var(--green));
+  box-shadow: 0 10px 35px rgba(0,229,255,.18);
+}
+
+.btn-secondary {
+  color: white;
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
+  transform: translateX(-140%) skewX(-20deg);
+}
+
+.btn:hover::after { animation: shine .85s ease; }
+
+.trusted-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(57,255,20,.16), rgba(0,229,255,.14));
+  border: 1px solid rgba(57,255,20,.32);
+  color: #eaffea;
+  font-weight: 900;
+  font-size: .88rem;
+  box-shadow: 0 0 18px rgba(57,255,20,.22), 0 0 40px rgba(0,229,255,.10);
+  animation: glowPulse 2.6s ease-in-out infinite;
+  margin-top: 16px;
+}
+
+.banner {
+  margin: 20px 0 30px;
+  padding: 18px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, rgba(0,229,255,.2), rgba(255,0,127,.2), rgba(57,255,20,.2));
+  border: 1px solid rgba(255,255,255,.15);
+  box-shadow: 0 0 25px rgba(0,229,255,.2);
+  animation: glowPulse 2.5s infinite ease-in-out;
+}
+
+.hero {
+  padding: 72px 0 42px;
+}
+
+.hero-wrap {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 28px;
+  align-items: center;
+}
+
+.eyebrow {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  color: var(--yellow);
+  font-weight: 800;
+  font-size: .82rem;
+  margin-bottom: 16px;
+  animation: glowPulse 2.8s ease-in-out infinite;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: .96;
+  letter-spacing: -1.8px;
+}
+
+h1 .gradient {
+  background: linear-gradient(90deg, var(--cyan), #fff, var(--pink));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 26px rgba(0,229,255,.20);
+}
+
+.sub {
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.75;
+  max-width: 700px;
+  margin: 18px 0 26px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 26px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.stat {
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+  box-shadow: var(--shadow);
+}
+
+.stat b {
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: .92rem;
+}
+
+.hero-card {
+  position: relative;
+  padding: 24px;
+  border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 14px 40px rgba(0,0,0,.28), var(--shadow);
+  overflow: hidden;
+  animation: pulseScale 4s ease-in-out infinite;
+}
+
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: auto -60px -60px auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,229,255,.35), transparent 60%);
+}
+
+.card-label {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(57,255,20,.12);
+  color: #9fff8a;
+  border: 1px solid rgba(57,255,20,.18);
+  font-weight: 800;
+  font-size: .82rem;
+  margin-bottom: 16px;
+}
+
+.highlight-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  margin-bottom: 12px;
+}
+
+.mini-list {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0 22px;
+}
+
+.mini-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  font-weight: 700;
+}
+
+.mini-item span { color: var(--muted); font-weight: 600; }
+
+section { padding: 26px 0; }
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 16px;
+  margin-bottom: 22px;
+  flex-wrap: wrap;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.section-head p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  max-width: 650px;
+  line-height: 1.7;
+}
+
+.packages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.card {
+  position: relative;
+  padding: 22px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+  border: 1px solid var(--card-border);
+  box-shadow: 0 18px 34px rgba(0,0,0,.20);
+  overflow: hidden;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+  isolation: isolate;
+  animation: glowPulse 3.2s ease-in-out infinite;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0,229,255,.36);
+  box-shadow: 0 18px 36px rgba(0,0,0,.30), 0 0 30px rgba(0,229,255,.12);
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(0,229,255,.55), transparent 30%, rgba(255,0,127,.45), rgba(57,255,20,.35), rgba(255,214,10,.28));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  z-index: -1;
+  animation: borderDance 7s linear infinite;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .76rem;
+  font-weight: 900;
+  letter-spacing: .4px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  color: var(--yellow);
+  margin-bottom: 14px;
+}
+
+.pkg-bot {
+  font-size: 1.7rem;
+  font-weight: 900;
+  margin: 0 0 6px;
+}
+
+.pkg-range {
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: 18px;
+  line-height: 1.6;
+}
+
+.price {
+  font-size: 2.1rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+}
+
+.price small {
+  font-size: .95rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.features {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.features li {
+  color: #dbe6fa;
+  font-size: .96rem;
+  display: flex;
+  gap: 10px;
+  line-height: 1.55;
+}
+
+.features li::before {
+  content: "✦";
+  color: var(--cyan);
+  font-weight: 900;
+  flex: 0 0 auto;
+}
+
+.best {
+  border-color: rgba(255,214,10,.35);
+  box-shadow: 0 18px 40px rgba(0,0,0,.28), 0 0 28px rgba(255,214,10,.12);
+}
+
+.best .badge {
+  background: linear-gradient(135deg, rgba(255,214,10,.18), rgba(255,140,0,.18));
+  color: #ffe66d;
+}
+
+.full { width: 100%; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.info-box {
+  padding: 22px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.10);
+}
+
+.info-box h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.steps, .why-list {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.cta {
+  padding: 28px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(0,229,255,.10), rgba(138,43,226,.12), rgba(255,0,127,.10));
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.cta h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.cta p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+footer {
+  padding: 34px 0 46px;
+  color: var(--muted);
+  text-align: center;
+  font-size: .95rem;
+}
+
+.footer-brand {
+  color: white;
+  font-weight: 800;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .65s ease, transform .65s ease;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.floating-wa {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #06101d;
+  font-size: 1.6rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #25D366, #8cffb0);
+  box-shadow: 0 0 0 rgba(37,211,102,0), 0 0 22px rgba(37,211,102,.45), 0 0 50px rgba(37,211,102,.22);
+  z-index: 30;
+  animation: pulseScale 2.2s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+}
+
+.floating-wa:hover {
+  transform: scale(1.08);
+}
+
+.floating-wa-label {
+  position: fixed;
+  right: 92px;
+  bottom: 30px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(6,15,30,.88);
+  border: 1px solid rgba(255,255,255,.10);
+  color: white;
+  font-weight: 800;
+  font-size: .9rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  z-index: 29;
+}
+
+@media (max-width: 980px) {
+  .hero-wrap,
+  .packages,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero { padding-top: 46px; }
+  .nav { padding: 12px 0; }
+  .nav-links { display: none; }
+  .container { width: min(100% - 18px, 1180px); }
+  .card, .hero-card, .info-box, .cta { border-radius: 20px; }
+  .btn { width: 100%; }
+  .hero-actions { flex-direction: column; }
+  .floating-wa {
+    width: 58px;
+    height: 58px;
+    right: 14px;
+    bottom: 14px;
+  }
+  .floating-wa-label {
+    right: 80px;
+    bottom: 22px;
+    font-size: .82rem;
+    padding: 8px 10px;
+  }
+}
+
+  </style>
+</head>
+<body class="bg-lines">
+  <canvas id="particles"></canvas>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">FF</div>
+        <div>
+          <span>FʀᴇᴇFɪʀᴇ Sʜᴏᴘ</span>
+          <small>গিল্ড গ্লোরি প্রিমিয়াম প্যাকেজ</small>
+        </div>
+      </div><nav class="nav-links">
+    <a href="#packages">প্যাকেজ</a>
+    <a href="#how">অর্ডার</a>
+    <a href="#why">কেন নিবেন</a>
+    <a href="#contact">কন্টাক্ট</a>
+  </nav>
+</div>
+
+  </header>  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="banner">🔥 FʀᴇᴇFɪʀᴇ Sʜᴏᴘ • FAST ORDER • WHATSAPP SUPPORT 🔥</div>
+      </div><div class="container hero-wrap">
+    <div class="reveal">
+      <div class="eyebrow">🔥 Premium Package • দ্রুত অর্ডার • 24/7 রিপ্লাই</div>
+      <h1>
+        আপনার গিল্ডে দিন<br>
+        <span class="gradient">ম্যাক্সিমাম গ্লোরি বুস্ট</span>
+      </h1>
+      <p class="sub">
+        আপনার পছন্দের Guild Glory package সিলেক্ট করুন, Order Now তে ক্লিক করুন,
+        আর WhatsApp এ ready-made order message সহ সরাসরি অর্ডার পাঠিয়ে দিন।
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#packages">প্যাকেজ দেখুন</a>
+        <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Guild%20Glory%20package%20%E0%A6%8F%E0%A6%B0%20details%20%E0%A6%9C%E0%A6%BE%E0%A6%A8%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87">WhatsApp করুন</a>
+      </div>
+      <div class="trusted-badge">⚡ FAST DELIVERY • DIRECT ORDER BUTTON</div>
+      <div class="stats">
+        <div class="stat">
+          <b>৭টি প্যাকেজ</b>
+          <span>৪ BOT থেকে ২৮ BOT পর্যন্ত</span>
+        </div>
+        <div class="stat">
+          <b>এক ক্লিক অর্ডার</b>
+          <span>প্রতিটি কার্ডে direct WhatsApp button</span>
+        </div>
+        <div class="stat">
+          <b>সাপোর্ট</b>
+          <span>মোবাইল ও PC দুই জায়গাতেই working link</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-card reveal">
+      <div class="card-label">⭐ সবচেয়ে বেশি নেয়া package</div>
+      <div class="highlight-title">সেরা ভ্যালু package</div>
+      <p class="sub" style="margin-top:0; margin-bottom:0; font-size:.97rem;">
+        যারা strong output চান তাদের জন্য mid-tier আর high-tier package সবচেয়ে ভালো choice।
+      </p>
+      <div class="mini-list">
+        <div class="mini-item"><strong>12 BOT</strong><span>4 Lakh – 6 Lakh</span></div>
+        <div class="mini-item"><strong>16 BOT</strong><span>6 Lakh – 7 Lakh</span></div>
+        <div class="mini-item"><strong>20 BOT</strong><span>7 Lakh – 9 Lakh</span></div>
+      </div>
+      <a class="btn btn-primary full" href="#packages">আপনার package বেছে নিন</a>
+    </div>
+  </div>
+</section>
+
+<section id="packages">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <h2>Guild Glory Packages</h2>
+        <p>যে package নিতে চান, সেই package এর Order Now button এ click করলেই WhatsApp এ message ready হয়ে যাবে।</p>
+      </div>
+    </div>
+
+    <div class="packages">
+      <article class="card reveal">
+        <div class="badge">স্টার্টার package</div>
+        <div class="pkg-bot">🤖 4 BOT</div>
+        <div class="pkg-range">1 Lakh – 2 Lakh Glory</div>
+        <div class="price">230৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>কম বাজেটের জন্য ভালো অপশন</li>
+          <li>ছোট গিল্ড boost এর জন্য suitable</li>
+          <li>Direct WhatsApp order</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%204%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%204%20BOT%0AGlory%3A%201%20Lakh%20-%202%20Lakh%0APrice%3A%20230%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card reveal">
+        <div class="badge">পপুলার choice</div>
+        <div class="pkg-bot">🤖 8 BOT</div>
+        <div class="pkg-range">3 Lakh – 4 Lakh Glory</div>
+        <div class="price">450৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>দাম ও output এর ভালো balance</li>
+          <li>দ্রুত visible growth</li>
+          <li>এক ক্লিক order system</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%208%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%208%20BOT%0AGlory%3A%203%20Lakh%20-%204%20Lakh%0APrice%3A%20450%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card best reveal">
+        <div class="badge">বেস্ট সেলার</div>
+        <div class="pkg-bot">🤖 12 BOT</div>
+        <div class="pkg-range">4 Lakh – 6 Lakh Glory</div>
+        <div class="price">680৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>সিরিয়াস বায়ারদের জন্য সেরা value</li>
+          <li>Strong performance range</li>
+          <li>সবচেয়ে popular mid-tier option</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2012%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2012%20BOT%0AGlory%3A%204%20Lakh%20-%206%20Lakh%0APrice%3A%20680%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card reveal">
+        <div class="badge">strong boost</div>
+        <div class="pkg-bot">🤖 16 BOT</div>
+        <div class="pkg-range">6 Lakh – 7 Lakh Glory</div>
+        <div class="price">900৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>বড় গিল্ড growth এর জন্য ভালো</li>
+          <li>High output support</li>
+          <li>Ready-made order message</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2016%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2016%20BOT%0AGlory%3A%206%20Lakh%20-%207%20Lakh%0APrice%3A%20900%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card reveal">
+        <div class="badge">high tier</div>
+        <div class="pkg-bot">🤖 20 BOT</div>
+        <div class="pkg-range">7 Lakh – 9 Lakh Glory</div>
+        <div class="price">1120৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>Strong boost package</li>
+          <li>ভালো output range</li>
+          <li>Fast contact button</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2020%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2020%20BOT%0AGlory%3A%207%20Lakh%20-%209%20Lakh%0APrice%3A%201120%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card reveal">
+        <div class="badge">premium boost</div>
+        <div class="pkg-bot">🤖 24 BOT</div>
+        <div class="pkg-range">9 Lakh – 10 Lakh Glory</div>
+        <div class="price">1350৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>উচ্চ output package</li>
+          <li>বড় target এর জন্য ভালো</li>
+          <li>WhatsApp direct order</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2024%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2024%20BOT%0AGlory%3A%209%20Lakh%20-%2010%20Lakh%0APrice%3A%201350%E0%A7%B3">Order Now</a>
+      </article>
+
+      <article class="card reveal">
+        <div class="badge">ultimate package</div>
+        <div class="pkg-bot">🤖 28 BOT</div>
+        <div class="pkg-range">10 Lakh – 12 Lakh Glory</div>
+        <div class="price">1580৳ <small>/ package</small></div>
+        <ul class="features">
+          <li>High-end package</li>
+          <li>Maximum boost target</li>
+          <li>Premium order flow</li>
+        </ul>
+        <a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2028%20BOT%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2028%20BOT%0AGlory%3A%2010%20Lakh%20-%2012%20Lakh%0APrice%3A%201580%E0%A7%B3">Order Now</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="container grid-2">
+    <div class="info-box reveal">
+      <h3>অর্ডার করার নিয়ম</h3>
+      <ol class="steps">
+        <li>পছন্দের package সিলেক্ট করুন</li>
+        <li>Order Now button এ click করুন</li>
+        <li>WhatsApp এ ready text open হবে</li>
+        <li>আপনার guild details পাঠান</li>
+      </ol>
+    </div>
+
+    <div class="info-box reveal" id="why">
+      <h3>কেন এই site ভালো</h3>
+      <ul class="why-list">
+        <li>Single-file HTML, GitHub Pages ready</li>
+        <li>Mobile friendly responsive design</li>
+        <li>Direct WhatsApp order integration</li>
+        <li>Neon animation + premium UI</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="cta reveal">
+      <div>
+        <h3>এখনই WhatsApp এ order দিন</h3>
+        <p>আপনার desired package বেছে নিয়ে সরাসরি message পাঠিয়ে দিন।</p>
+      </div>
+      <a class="btn btn-primary" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Guild%20Glory%20package%20%E0%A6%8F%E0%A6%B0%20order%20%E0%A6%A6%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87">WhatsApp Order</a>
+    </div>
+  </div>
+</section>
+
+  </main>  <footer>
+    <div class="container">
+      <span class="footer-brand">FʀᴇᴇFɪʀᴇ Sʜᴏᴘ</span><br />
+      Premium Guild Glory Package Landing Page
+    </div>
+  </footer><a href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20order%20%E0%A6%A6%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87" class="floating-wa" target="_blank" rel="noopener">💬</a>
+
+  <div class="floating-wa-label">Order Now</div>  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      const count = Math.min(100, Math.floor(window.innerWidth / 16));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 2 + 0.4,
+          dx: (Math.random() - 0.5) * 0.6,
+          dy: (Math.random() - 0.5) * 0.6
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,229,255,.8)';
+        ctx.fill();
+
+        p.x += p.dx;
+        p.y += p.dy;
+
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      }
+      requestAnimationFrame(drawParticles);
+    }
+
+    resizeCanvas();
+    createParticles();
+    drawParticles();
+
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createParticles();
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    function revealOnScroll() {
+      reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight - 90) {
+          el.classList.add('show');
+        }
+      });
+    }
+
+    revealOnScroll();
+    window.addEventListener('scroll', revealOnScroll);
+  </script></body>
+</html>
