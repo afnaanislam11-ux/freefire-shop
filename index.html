@@ -1,40 +1,130 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FreeFire Shop</title>
-  <meta name="description" content="FreeFire Shop এর Guild Glory package website" />
-  <style>
-    :root{
-      --bg1:#07111f;
-      --bg2:#0d1b2a;
-      --bg3:#140a22;
-      --card:rgba(255,255,255,.08);
-      --border:rgba(255,255,255,.12);
-      --text:#f5f7ff;
-      --muted:#b8c6df;
-      --cyan:#00d9ff;
-      --green:#47ff7a;
-      --purple:#8a2be2;
-      --yellow:#ffd84d;
-      --shadow:0 10px 30px rgba(0,0,0,.24);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreeFire Shop</title>
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 15% 20%, rgba(0,217,255,.14), transparent 24%),
-        radial-gradient(circle at 85% 10%, rgba(138,43,226,.14), transparent 22%),
-        radial-gradient(circle at 70% 85%, rgba(71,255,122,.10), transparent 20%),
-        linear-gradient(135deg, var(--bg1), var(--bg2) 55%, var(--bg3));
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+<style>
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#0d1b2a;
+  color:white;
+}
+
+.container {
+  padding:20px;
+}
+
+h1 {
+  text-align:center;
+}
+
+.card {
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:15px;
+  margin:15px 0;
+}
+
+input, select {
+  width:100%;
+  padding:12px;
+  margin:8px 0;
+  border:none;
+  border-radius:10px;
+  background:#1b263b;
+  color:white;
+}
+
+button {
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#00e5ff;
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover {
+  opacity:0.8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 FreeFire Shop 🔥</h1>
+<p style="text-align:center;">Guild Glory Premium Package</p>
+
+<div class="card">
+<h2>📦 Packages</h2>
+
+<p>4 BOT ➤ 1–2 Lakh Glory — 230৳</p>
+<p>8 BOT ➤ 3–4 Lakh Glory — 450৳</p>
+<p>12 BOT ➤ 4–6 Lakh Glory — 680৳</p>
+<p>16 BOT ➤ 6–7 Lakh Glory — 900৳</p>
+<p>20 BOT ➤ 7–9 Lakh Glory — 1120৳</p>
+<p>24 BOT ➤ 9–10 Lakh Glory — 1350৳</p>
+<p>28 BOT ➤ 10–12 Lakh Glory — 1580৳</p>
+
+</div>
+
+<div class="card">
+<h2>💳 Payment</h2>
+
+<p>Bkash: 01570284462</p>
+<p>Nagad: 01570284462</p>
+<p>Rocket: 01610701626</p>
+
+</div>
+
+<div class="card">
+<h2>⚡ Auto Order</h2>
+
+<input id="name" placeholder="Your Name">
+<input id="uid" placeholder="Your UID">
+
+<select id="package">
+<option>4 BOT - 230৳</option>
+<option>8 BOT - 450৳</option>
+<option>12 BOT - 680৳</option>
+<option>16 BOT - 900৳</option>
+<option>20 BOT - 1120৳</option>
+<option>24 BOT - 1350৳</option>
+<option>28 BOT - 1580৳</option>
+</select>
+
+<button onclick="order()">Order via WhatsApp</button>
+
+</div>
+
+</div>
+
+<script>
+function order(){
+  let name = document.getElementById("name").value;
+  let uid = document.getElementById("uid").value;
+  let pack = document.getElementById("package").value;
+
+  if(!name || !uid){
+    alert("Name + UID lagbe!");
+    return;
+  }
+
+  let msg = `Name: ${name}%0AUID: ${uid}%0APackage: ${pack}`;
+
+  window.open(`https://wa.me/8801410284462?text=${msg}`);
+}
+</script>
+
+</body>
+</html>    }
 
     canvas#particles{
       position:fixed;
