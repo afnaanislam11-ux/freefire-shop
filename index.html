@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FreeFire Shop</title>
+  <meta name="description" content="FreeFire Shop এর Guild Glory, Like Service এবং Panel package website" />
+  <style>
+    :root{
+      --bg1:#07111f;
+      --bg2:#0d1b2a;
+      --bg3:#140a22;
+      --card:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.12);
+      --text:#f5f7ff;
+      --muted:#b8c6df;
+      --cyan:#00d9ff;
+      --green:#47ff7a;
+      --purple:#8a2be2;
+      --yellow:#ffd84d;
+      --shadow:0 10px 30px rgba(0,0,0,.24);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(0,217,255,.14), transparent 24%),
+        radial-gradient(circle at 85% 10%, rgba(138,43,226,.14), transparent 22%),
+        radial-gradient(circle at 70% 85%, rgba(71,255,122,.10), transparent 20%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 55%, var(--bg3));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    canvas#particles{
+      position:fixed;
+      inset:0;
+      z-index:-3;
+      opacity:.8;
+    }
+
+    .bg-grid::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size:36px 36px;
+      mask-image:radial-gradient(circle at center, black 52%, transparent 92%);
+    }
+
+    .orb{
+      position:fixed;
+      border-radius:50%;
+      filter:blur(34px);
+      opacity:.26;
+      z-index:-1;
+      animation:drift 14s ease-in-out infinite;
+      will-change:transform;
+    }
+
+    .orb1{width:180px;height:180px;left:-30px;top:80px;background:rgba(0,217,255,.20)}
+    .orb2{width:170px;height:170px;right:-40px;top:180px;background:rgba(138,43,226,.18);animation-delay:-4s}
+    .orb3{width:150px;height:150px;right:14%;bottom:80px;background:rgba(71,255,122,.16);animation-delay:-7s}
+
+    @keyframes drift{
+      0%,100%{transform:translate3d(0,0,0) scale(1)}
+      50%{transform:translate3d(0,-12px,0) scale(1.03)}
+    }
+
+    @keyframes softGlow{
+      0%,100%{box-shadow:0 0 0 rgba(0,0,0,0),0 0 20px rgba(0,217,255,.06)}
+      50%{box-shadow:0 0 24px rgba(0,217,255,.10),0 0 40px rgba(138,43,226,.08)}
+    }
+
+    .container{width:min(1140px, calc(100% - 24px));margin:0 auto}
+
+    .topbar{
+      position:sticky;top:0;z-index:30;backdrop-filter:blur(10px);
+      background:rgba(5,12,24,.74);border-bottom:1px solid rgba(255,255,255,.08)
+    }
+
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:white}
+
+    .brand-badge{
+      width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+      font-weight:900;font-size:1.2rem;color:#07111f;
+      background:linear-gradient(135deg, var(--cyan), var(--purple));
+      box-shadow:0 10px 25px rgba(0,217,255,.18);flex:0 0 auto;
+    }
+
+    .brand-title{font-size:1.7rem;font-weight:900;letter-spacing:.4px;margin:0;line-height:1.05}
+    .brand-sub{margin:2px 0 0;color:var(--muted);font-size:.95rem;font-weight:700}
+
+    .nav-links{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+    .nav-links a{color:var(--muted);text-decoration:none;font-weight:700;transition:color .2s ease}
+    .nav-links a:hover,.nav-links a.active{color:var(--cyan)}
+
+    .hero{padding:44px 0 18px}
+    .hero-box{
+      padding:24px;border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid var(--border);box-shadow:var(--shadow), 0 0 24px rgba(0,217,255,.08);
+      animation:softGlow 6s ease-in-out infinite;text-align:center;
+    }
+
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+      color:var(--yellow);font-weight:800;font-size:.84rem;margin-bottom:14px;
+    }
+
+    h1{margin:0;font-size:clamp(2rem, 6vw, 4rem);line-height:1;letter-spacing:-1.4px}
+    h1 .gradient{background:linear-gradient(90deg, var(--cyan), #fff, #9f7cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{color:var(--muted);line-height:1.75;margin:16px auto 0;max-width:760px;font-size:1rem}
+
+    .service-switcher{
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:24px;
+    }
+
+    .service-tab{
+      position:relative;padding:20px 16px;border-radius:24px;border:1px solid rgba(255,255,255,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      box-shadow:var(--shadow);cursor:pointer;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease;
+      text-align:left;color:var(--text);
+    }
+
+    .service-tab:hover{transform:translateY(-3px);border-color:rgba(0,217,255,.24)}
+    .service-tab.active{border-color:rgba(0,217,255,.45);box-shadow:var(--shadow),0 0 28px rgba(0,217,255,.10)}
+    .service-tab .tab-top{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+    .service-icon{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;font-size:1.6rem;font-weight:900;background:linear-gradient(135deg, rgba(0,217,255,.18), rgba(138,43,226,.18));border:1px solid rgba(255,255,255,.08)}
+    .service-tab h3{margin:0;font-size:1.2rem;line-height:1.15}
+    .service-tab p{margin:0;color:var(--muted);line-height:1.55;font-size:.95rem}
+    .tap-note{margin-top:10px;display:inline-block;font-size:.82rem;color:var(--yellow);font-weight:800}
+
+    section{padding:22px 0}
+    .section-head{text-align:center;margin-bottom:18px}
+    .section-head h2{margin:0 0 8px;font-size:clamp(1.5rem, 4vw, 2.3rem)}
+    .section-head p{margin:0 auto;color:var(--muted);max-width:760px;line-height:1.7}
+
+    .service-panels{margin-top:16px}
+    .service-panel{display:none}
+    .service-panel.active{display:block}
+
+    .packages,.payment-grid{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:16px}
+
+    .card{
+      padding:20px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
+      border:1px solid rgba(255,255,255,.10);box-shadow:var(--shadow);
+      transition:transform .2s ease, border-color .2s ease;min-width:0;
+    }
+
+    .card:hover{transform:translateY(-4px);border-color:rgba(0,217,255,.22)}
+    .badge{display:inline-block;padding:8px 12px;border-radius:999px;background:rgba(255,216,77,.12);color:#ffe480;font-size:.76rem;font-weight:900;margin-bottom:12px}
+    .pkg-bot{margin:0 0 6px;font-size:1.8rem;font-weight:900;line-height:1.15;word-break:break-word}
+    .pkg-range{color:var(--muted);font-weight:700;margin-bottom:14px;line-height:1.6}
+    .price{margin-bottom:14px;font-size:2rem;font-weight:900;word-break:break-word}
+    .price small{display:block;font-size:.9rem;color:var(--muted);margin-top:4px}
+    .features{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:10px}
+    .features li{display:flex;gap:10px;line-height:1.55;color:#dbe7ff;font-size:.98rem;word-break:break-word}
+    .features li::before{content:"✦";color:var(--cyan);flex:0 0 auto;font-weight:900}
+    .full{width:100%}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;padding:14px 20px;border-radius:16px;
+      text-decoration:none;font-weight:900;border:0;transition:transform .18s ease, opacity .18s ease;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{color:#07111f;background:linear-gradient(135deg, var(--cyan), var(--green));box-shadow:0 10px 24px rgba(0,217,255,.16)}
+    .btn-secondary{color:white;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+
+    .info-box,.cta{padding:22px;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.10);box-shadow:var(--shadow)}
+    .grid-1{display:grid;gap:16px}
+    .steps{margin:0;padding-left:18px;color:var(--muted);line-height:1.8}
+
+    .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .cta h3{margin:0 0 8px;font-size:1.5rem}
+    .cta p{margin:0;color:var(--muted);line-height:1.7}
+
+    .floating-wa{
+      position:fixed;right:16px;bottom:16px;width:60px;height:60px;display:flex;align-items:center;justify-content:center;
+      text-decoration:none;border-radius:50%;background:linear-gradient(135deg, #25D366, #8bffb1);color:#08111f;font-size:1.5rem;font-weight:900;z-index:50;
+      box-shadow:0 10px 24px rgba(37,211,102,.28);transition:transform .2s ease;
+    }
+    .floating-wa:hover{transform:scale(1.06)}
+
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease, transform .55s ease}
+    .reveal.show{opacity:1;transform:translateY(0)}
+
+    @media (max-width:980px){
+      .packages,.payment-grid,.service-switcher{grid-template-columns:1fr}
+      .orb2,.orb3{display:none}
+    }
+
+    @media (max-width:640px){
+      .container{width:min(100% - 16px, 1140px)}
+      .nav{padding:12px 0}
+      .nav-links{display:none}
+      .brand-title{font-size:1.35rem}
+      .brand-sub{font-size:.86rem}
+      .hero{padding-top:24px}
+      .hero-box,.card,.info-box,.cta,.service-tab{border-radius:18px}
+      .btn{width:100%}
+      .pkg-bot{font-size:1.55rem}
+      .price{font-size:1.65rem}
+      canvas#particles{opacity:.55}
+      .service-tab{padding:18px 14px}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *, *::before, *::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+      .orb,canvas#particles{display:none !important}
+      .reveal{opacity:1 !important; transform:none !important}
+    }
+  </style>
+</head>
+<body class="bg-grid">
+  <canvas id="particles"></canvas>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="#top">
+        <div class="brand-badge">FF</div>
+        <div>
+          <div class="brand-title">FʀᴇᴇFɪʀᴇ Sʜᴏᴘ</div>
+          <div class="brand-sub">Guild Glory • Like Service • Panel Sell</div>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#how">অর্ডার</a>
+        <a href="#payment">Payment</a>
+        <a href="#contact">কন্টাক্ট</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-box reveal">
+          <div class="hero-badge">🔥 Tap to choose your service</div>
+          <h1>একটা tap এ <span class="gradient">service select</span> করে package দেখুন</h1>
+          <p class="sub">যার Guild Glory লাগবে সে Guild Glory তে tap দিবে, যার Like Service লাগবে সে Like Service তে tap দিবে, আর যার Panel লাগবে সে Panel Sell তে tap দিয়ে direct package দেখতে পারবে।</p>
+
+          <div class="service-switcher" id="services">
+            <button class="service-tab active" type="button" data-target="glory-panel">
+              <div class="tab-top">
+                <div class="service-icon">🤖</div>
+                <div>
+                  <h3>Guild Glory</h3>
+                  <p>Bot package দেখে order দিন</p>
+                </div>
+              </div>
+              <span class="tap-note">Tap to view</span>
+            </button>
+
+            <button class="service-tab" type="button" data-target="likes-panel">
+              <div class="tab-top">
+                <div class="service-icon">💖</div>
+                <div>
+                  <h3>Like Service</h3>
+                  <p>Daily like package select করুন</p>
+                </div>
+              </div>
+              <span class="tap-note">Tap to view</span>
+            </button>
+
+            <button class="service-tab" type="button" data-target="panel-panel">
+              <div class="tab-top">
+                <div class="service-icon">🟢</div>
+                <div>
+                  <h3>Panel Sell</h3>
+                  <p>Drip Client access package</p>
+                </div>
+              </div>
+              <span class="tap-note">Tap to view</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container service-panels">
+        <div class="service-panel active" id="glory-panel">
+          <div class="section-head reveal">
+            <h2>Guild Glory Packages</h2>
+            <p>নিচের যেকোনো Guild Glory package select করে সরাসরি WhatsApp এ order পাঠিয়ে দিন।</p>
+          </div>
+
+          <div class="packages">
+            <article class="card reveal"><div class="badge">Starter</div><div class="pkg-bot">🤖 4 BOT</div><div class="pkg-range">1 Lakh – 2 Lakh Glory</div><div class="price">230৳ <small>/ package</small></div><ul class="features"><li>কম বাজেটের জন্য ভালো</li><li>ছোট গিল্ড boost এর জন্য suitable</li><li>Direct WhatsApp order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%B2%E0%A6%BE%E0%A6%87%E0%A6%95%E0%A7%81%E0%A6%AE%2C%20%E0%A6%86%E0%A6%AE%E0%A6%BF%204%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%204%20BOT%0AGlory%3A%201%20Lakh%20-%202%20Lakh%0APrice%3A%20230%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Popular</div><div class="pkg-bot">🤖 8 BOT</div><div class="pkg-range">3 Lakh – 4 Lakh Glory</div><div class="price">450৳ <small>/ package</small></div><ul class="features"><li>দাম ও output এর ভালো balance</li><li>দ্রুত visible growth</li><li>এক click এ order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%208%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%208%20BOT%0AGlory%3A%203%20Lakh%20-%204%20Lakh%0APrice%3A%20450%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Best Seller</div><div class="pkg-bot">🤖 12 BOT</div><div class="pkg-range">4 Lakh – 6 Lakh Glory</div><div class="price">680৳ <small>/ package</small></div><ul class="features"><li>সিরিয়াস buyer দের জন্য ভালো value</li><li>Strong performance range</li><li>Popular mid-tier option</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2012%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2012%20BOT%0AGlory%3A%204%20Lakh%20-%206%20Lakh%0APrice%3A%20680%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Strong Boost</div><div class="pkg-bot">🤖 16 BOT</div><div class="pkg-range">6 Lakh – 7 Lakh Glory</div><div class="price">900৳ <small>/ package</small></div><ul class="features"><li>বড় গিল্ড growth এর জন্য ভালো</li><li>High output support</li><li>Ready-made order message</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2016%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2016%20BOT%0AGlory%3A%206%20Lakh%20-%207%20Lakh%0APrice%3A%20900%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">High Tier</div><div class="pkg-bot">🤖 20 BOT</div><div class="pkg-range">7 Lakh – 9 Lakh Glory</div><div class="price">1120৳ <small>/ package</small></div><ul class="features"><li>Strong boost package</li><li>ভালো output range</li><li>Fast contact button</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2020%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2020%20BOT%0AGlory%3A%207%20Lakh%20-%209%20Lakh%0APrice%3A%201120%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Premium Boost</div><div class="pkg-bot">🤖 24 BOT</div><div class="pkg-range">9 Lakh – 10 Lakh Glory</div><div class="price">1350৳ <small>/ package</small></div><ul class="features"><li>উচ্চ output package</li><li>বড় target এর জন্য ভালো</li><li>WhatsApp direct order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2024%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2024%20BOT%0AGlory%3A%209%20Lakh%20-%2010%20Lakh%0APrice%3A%201350%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Ultimate</div><div class="pkg-bot">🤖 28 BOT</div><div class="pkg-range">10 Lakh – 12 Lakh Glory</div><div class="price">1580৳ <small>/ package</small></div><ul class="features"><li>High-end package</li><li>Maximum boost target</li><li>Premium order flow</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2028%20BOT%20Guild%20Glory%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2028%20BOT%0AGlory%3A%2010%20Lakh%20-%2012%20Lakh%0APrice%3A%201580%E0%A7%B3">Order Now</a></article>
+          </div>
+        </div>
+
+        <div class="service-panel" id="likes-panel">
+          <div class="section-head reveal">
+            <h2>Free Fire Like Service ⚡</h2>
+            <p>Daily like package নিতে চাইলে নিচের যেকোনো plan select করে সরাসরি WhatsApp এ order পাঠিয়ে দিন।</p>
+          </div>
+          <div class="packages">
+            <article class="card reveal"><div class="badge">Quick Start</div><div class="pkg-bot">💖 1 Day</div><div class="pkg-range">100 Likes</div><div class="price">10৳ <small>/ 1 day package</small></div><ul class="features"><li>Small budget এর জন্য best</li><li>Instant starter like boost</li><li>WhatsApp direct order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%201%20Day%20100%20Likes%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%201%20Day%0ALikes%3A%20100%20Likes%0APrice%3A%2010%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Popular</div><div class="pkg-bot">💖 10 Days</div><div class="pkg-range">100 Likes Daily</div><div class="price">80৳ <small>/ 10 day package</small></div><ul class="features"><li>Regular daily likes</li><li>Low budget long plan</li><li>Easy WhatsApp order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2010%20Days%20100%20Likes%20Daily%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2010%20Days%0ALikes%3A%20100%20Likes%20Daily%0APrice%3A%2080%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Value Plan</div><div class="pkg-bot">💖 20 Days</div><div class="pkg-range">100 Likes Daily</div><div class="price">160৳ <small>/ 20 day package</small></div><ul class="features"><li>Longer daily support</li><li>Good value package</li><li>Direct message order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2020%20Days%20100%20Likes%20Daily%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2020%20Days%0ALikes%3A%20100%20Likes%20Daily%0APrice%3A%20160%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Best Offer</div><div class="pkg-bot">💖 30 Days</div><div class="pkg-range">100 Likes Daily</div><div class="price">250৳ <small>/ 30 day package</small></div><ul class="features"><li>Monthly like support</li><li>Best long-term package</li><li>Fast WhatsApp order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%2030%20Days%20100%20Likes%20Daily%20package%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APackage%3A%2030%20Days%0ALikes%3A%20100%20Likes%20Daily%0APrice%3A%20250%E0%A7%B3">Order Now</a></article>
+          </div>
+        </div>
+
+        <div class="service-panel" id="panel-panel">
+          <div class="section-head reveal">
+            <h2>Drip Client Panel Sell</h2>
+            <p>Drip Client panel access নিতে চাইলে নিচের যেকোনো duration select করে order পাঠিয়ে দিন।</p>
+          </div>
+          <div class="packages">
+            <article class="card reveal"><div class="badge">Starter Access</div><div class="pkg-bot">🟢 1 Day</div><div class="pkg-range">Panel Name: Drip Client</div><div class="price">160৳ <small>/ 1 day access</small></div><ul class="features"><li>Short-term trial use</li><li>Budget friendly starter option</li><li>Direct WhatsApp order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Drip%20Client%201%20Day%20panel%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APanel%3A%20Drip%20Client%0ADuration%3A%201%20Day%0APrice%3A%20160%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Short Plan</div><div class="pkg-bot">🟢 3 Days</div><div class="pkg-range">Panel Name: Drip Client</div><div class="price">300৳ <small>/ 3 day access</small></div><ul class="features"><li>Short মেয়াদের জন্য good</li><li>Affordable testing option</li><li>Direct order system</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Drip%20Client%203%20Days%20panel%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APanel%3A%20Drip%20Client%0ADuration%3A%203%20Days%0APrice%3A%20300%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Popular</div><div class="pkg-bot">🟢 7 Days</div><div class="pkg-range">Panel Name: Drip Client</div><div class="price">550৳ <small>/ 7 day access</small></div><ul class="features"><li>Weekly package</li><li>Most balanced option</li><li>Quick WhatsApp order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Drip%20Client%207%20Days%20panel%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APanel%3A%20Drip%20Client%0ADuration%3A%207%20Days%0APrice%3A%20550%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Pro Access</div><div class="pkg-bot">🟢 15 Days</div><div class="pkg-range">Panel Name: Drip Client</div><div class="price">900৳ <small>/ 15 day access</small></div><ul class="features"><li>Half-month support</li><li>Good for regular users</li><li>Easy direct order</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Drip%20Client%2015%20Days%20panel%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APanel%3A%20Drip%20Client%0ADuration%3A%2015%20Days%0APrice%3A%20900%E0%A7%B3">Order Now</a></article>
+            <article class="card reveal"><div class="badge">Premium</div><div class="pkg-bot">🟢 30 Days</div><div class="pkg-range">Panel Name: Drip Client</div><div class="price">1300৳ <small>/ 30 day access</small></div><ul class="features"><li>Monthly full package</li><li>Best for long use</li><li>Fast order button</li></ul><a class="btn btn-primary full" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20Drip%20Client%2030%20Days%20panel%20%E0%A6%A8%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87.%0A%0APanel%3A%20Drip%20Client%0ADuration%3A%2030%20Days%0APrice%3A%201300%E0%A7%B3">Order Now</a></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container grid-1">
+        <div class="info-box reveal">
+          <h3 style="margin-top:0;">অর্ডার করার নিয়ম</h3>
+          <ol class="steps">
+            <li>উপরে service এ tap করুন</li>
+            <li>তারপর package select করুন</li>
+            <li>Order Now button এ click করুন</li>
+            <li>WhatsApp এ ready message open হবে</li>
+            <li>আপনার প্রয়োজনীয় details পাঠিয়ে order confirm করুন</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="payment">
+      <div class="container">
+        <div class="section-head reveal">
+          <h2>Payment Method</h2>
+          <p>পেমেন্ট করার পর screenshot, নাম, package, আর order details WhatsApp এ পাঠিয়ে দিন।</p>
+        </div>
+
+        <div class="payment-grid">
+          <article class="card reveal"><div class="badge">সবার বেশি ব্যবহার হয়</div><div class="pkg-bot">📱 Bkash</div><div class="pkg-range">Personal Number</div><div class="price">01570284462</div><ul class="features"><li>Payment করার পর screenshot পাঠান</li><li>WhatsApp এ order details confirm করুন</li><li>নাম ও package লিখে দিন</li></ul></article>
+          <article class="card reveal"><div class="badge">দ্রুত payment</div><div class="pkg-bot">📱 Nagad</div><div class="pkg-range">Personal Number</div><div class="price">01570284462</div><ul class="features"><li>Payment এর পরে screenshot পাঠান</li><li>Order confirm message দিন</li><li>Package name লিখে দিন</li></ul></article>
+          <article class="card reveal"><div class="badge">Alternative</div><div class="pkg-bot">📱 Rocket</div><div class="pkg-range">Personal Number</div><div class="price">01610701626</div><ul class="features"><li>Payment করার পরে screenshot দিবেন</li><li>WhatsApp এ name + package পাঠান</li><li>Receipt রেখে দিন</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="cta reveal">
+          <div>
+            <h3>এখনই WhatsApp এ order দিন</h3>
+            <p>Service select করে package choose করুন, তারপর ready message সহ direct order পাঠিয়ে দিন।</p>
+          </div>
+          <a class="btn btn-primary" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20order%20%E0%A6%A6%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87">WhatsApp করুন</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <a class="floating-wa" target="_blank" rel="noopener" href="https://api.whatsapp.com/send?phone=8801410284462&text=%E0%A6%86%E0%A6%B8%E0%A6%B8%E0%A6%BE%E0%A6%B2%E0%A6%BE%E0%A6%AE%E0%A7%81%20%E0%A6%86%E0%A6%AE%E0%A6%BF%20order%20%E0%A6%A6%E0%A6%BF%E0%A6%A4%E0%A7%87%20%E0%A6%9A%E0%A6%BE%E0%A6%87">💬</a>
+
+  <script>
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+      particles = [];
+      const isMobile = window.innerWidth <= 768;
+      const count = isMobile ? 18 : 34;
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          r: Math.random() * 1.8 + 0.4,
+          dx: (Math.random() - 0.5) * 0.22,
+          dy: (Math.random() - 0.5) * 0.22
+        });
+      }
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (const p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,217,255,.65)';
+        ctx.fill();
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+      }
+      animationId = requestAnimationFrame(drawParticles);
+    }
+
+    function startParticles() { if (!animationId) drawParticles(); }
+    function stopParticles() { if (animationId) { cancelAnimationFrame(animationId); animationId = null; } }
+
+    resizeCanvas();
+    createParticles();
+    startParticles();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resizeCanvas();
+        createParticles();
+      }, 120);
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stopParticles();
+      else startParticles();
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach((el) => observer.observe(el));
+
+    const tabs = document.querySelectorAll('.service-tab');
+    const panels = document.querySelectorAll('.service-panel');
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        tabs.forEach((item) => item.classList.remove('active'));
+        panels.forEach((panel) => panel.classList.remove('active'));
+        tab.classList.add('active');
+        const activePanel = document.getElementById(target);
+        if (activePanel) {
+          activePanel.classList.add('active');
+          window.scrollTo({ top: activePanel.offsetTop - 90, behavior: 'smooth' });
+          activePanel.querySelectorAll('.reveal').forEach((el) => el.classList.add('show'));
+        }
+      });
+    });
+  </script>
+</body>
+</html>
